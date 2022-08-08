@@ -1,0 +1,66 @@
+{
+    "general": {
+        "active_config_refresh": true,
+        "gps_demo_mode": {
+            "enabled": true,
+            "longitude": 41.4741,
+            "latitude": -81.4439,
+            "speed": 36.4,
+            "altitude": 132.0,
+            "heading": 87.2,
+            "satellites": 6
+        },
+        "refresh_delay": 1
+    },
+    "display": {
+        "displays": {
+            "time": true,
+            "date": true,
+            "speed": {
+                "small_display": true,
+                "large_display": false,
+                "decimal_places": 2,
+                "unit": "mph"
+            },
+            "location": true,
+            "altitude": true,
+            "heading": {
+                "degrees": true,
+                "direction": true 
+            },
+            "satellites": true
+        },
+        "large_critical_display": true,
+        "heading_as_cardinal_direction": true,
+        "ascii_art_header": true,
+        "custom_startup_message": "",
+        "notices": {
+            "1": {
+                "wait_for_input": false,
+                "delay": 3.0
+            },
+            "2": {
+                "wait_for_input": true,
+                "delay": 5.0
+            },
+            "3": {
+                "wait_for_input": true,
+                "delay": 10.0
+            }
+        }
+    },
+    "audio": {
+        "sounds": {
+            "startup": {
+                "path": "./assets/sounds/startup.mp3",
+                "repeat": "0",
+                "delay": "1.5"
+            },
+            "beacon": {
+                "path": "./assets/sounds/beacon.mp3",
+                "repeat": "0",
+                "delay": "1"
+            }
+        } 
+    }
+}
