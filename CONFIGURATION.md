@@ -15,6 +15,10 @@ This section of configuration values will effect Parallax's general operation.
     - To use this feature, simply set `enabled` to `true`, then set each GPS variable to any value you want. Parallax will use this fake information whenever it would otherwise poll the GPS for information.
 - `refresh_delay`
     - This setting determines how long Parallax will wait between refreshes in seconds. Generally, 1 second is appropriate, but you can increase or decrease the delay to improve precision, or save processing power.
+- `startup_time`
+    - This setting determines how long Parallax will wait after showing the startup logo, in seconds.
+    - Increasing this value will allow the Parallax header to remain visible for longer.
+    - Decreasing this value will allow Parallax to start up quicker.
 
 
 ## Display Configuration

@@ -1,4 +1,4 @@
-# Parallax
+#Parallax
 
 # Copyright (C) 2022 V0LT - Conner Vieira 
 
@@ -81,7 +81,7 @@ if (config["display"]["custom_startup_message"] != ""): # Only display the line 
     print(config["display"]["custom_startup_message"]) # Show the user's custom defined start-up message.
 
 
-time.sleep(2) # Wait two seconds to allow the start-up logo to remain on-screen for a moment.
+time.sleep(float(config["general"]["startup_time"])) # Wait for a certain amount of time, as specified in the configuration to allow the logo to remain on screen.
 
 
 
@@ -107,10 +107,11 @@ while True: # Run forever in a loop until terminated.
         print("Please select an option.")
         print("1. Information Display")
         print("2. Create Beacon")
+        print("3. Tools")
         selection = input("Selection: ")
 
 
-        if (selection == "1"):
+        if (selection == "1"): # The user has selected to open the information displays.
             while True: # Run the information display loop forever until terminated.
                 try:
                     clear() # Clear the console output at the beginning of every cycle.
@@ -164,7 +165,7 @@ while True: # Run forever in a loop until terminated.
 
 
 
-        elif (selection == "2"):
+        elif (selection == "2"): # The user has selected the beacon option.
             clear() # Clear the console output at the beginning of every cycle.
 
             input("Press enter to drop beacon...")
@@ -183,6 +184,84 @@ while True: # Run forever in a loop until terminated.
             beacon_data.append(beacon_author)
 
             # TODO - Save beacon to database.
+
+
+
+
+        elif (selection == "3"): # The user has selected the tools menu.
+            clear()
+            print("Please select an option.")
+            print("0. Exit")
+            print("1. Stopwatch")
+            print("2. Timer")
+            selection = input("Selection: ")
+            clear() # Clear the console output after receiving the user's selection.
+
+            if (selection == "0"): # The user has selected to exit the tools menu.
+                pass
+
+            elif (selection == "1"): # The user has selected the stopwatch from the tools menu.
+                try:
+                    stopwatch_time = 0 # This variable will be incremented by 1 every second to display the current time.
+                    input("Press enter to start stopwatch...") # Wait for the user to press enter before starting the stopwatch.
+                    stopwatch_start_time = round(time.time() * 1000) # Get the current time in milliseconds when the stopwatch is started.
+                    while True: # Repeat forever until terminated.
+                        clear() # Clear the console output.
+                        print("Time: " + str(stopwatch_time) + " seconds") # Show the current stopwatch time.
+                        time.sleep(1) # Wait 1 second before repeating the loop.
+                        stopwatch_time = stopwatch_time + 1 # Increment the stopwatch time by 1 second.
+                        
+                except KeyboardInterrupt: # Wait for the user to press Control + C, then break the loop and return to the main menu.
+                    clear() # Clear the console output.
+                    print("Time: " + str((round(time.time() * 1000) - stopwatch_start_time)/1000) + " seconds") # Show the final stopwatch time after the loop is terminated.
+                    input("Press enter to continue...") # Wait for the user to press enter before continuing.
+
+
+            elif (selection == "2"): # The user has selected the timer from the tools menu.
+                try:
+                    timer_length_input = str(input("Timer length: ")).split(":") # Prompt the user to enter a timer length, then split the input at colons.
+
+                    timer_length = 0.0 # This is a placeholder variable that will be used to hold the length of the timer in seconds.
+
+                    # Parse the length of the timer based on the number of elements in the list derived from the user input.
+                    if (len(timer_length_input) == 1): # There is only one element in the user input, so just add seconds to the timer.
+                        timer_length = timer_length + float(timer_length_input[0]) # Add seconds to the timer.
+                    elif (len(timer_length_input) == 2): # There are two elements in the user input, so add minutes and seconds to the timer.
+                        timer_length = timer_length + (float(timer_length_input[0])*60) # Add minutes to the timer.
+                        timer_length = timer_length + float(timer_length_input[1]) # Add seconds to the timer.
+                    elif (len(timer_length_input) == 3): # There are three elements in the user input, so add hours, minutes, and seconds to the timer.
+                        timer_length = timer_length + (float(timer_length_input[0])*3600) # Add hours to the timer.
+                        timer_length = timer_length + (float(timer_length_input[1])*60) # Add minutes to the timer.
+                        timer_length = timer_length + float(timer_length_input[2]) # Add seconds to the timer.
+                    elif (len(timer_length_input) == 4): # There are four elements in the user input, so add days, hours, minutes, and seconds to the timer.
+                        timer_length = timer_length + (float(timer_length_input[0])*86400) # Add days to the timer.
+                        timer_length = timer_length + (float(timer_length_input[1])*3600) # Add hours to the timer.
+                        timer_length = timer_length + (float(timer_length_input[2])*60) # Add minutes to the timer.
+                        timer_length = timer_length + float(timer_length_input[3]) # Add seconds to the timer.
+
+
+                    timer_length = round(timer_length) # Round the timer length to the nearest second.
+
+
+                    input("Press enter to start timer...") # Wait for the user to press enter before starting the timer.
+                    while True: # Repeat forever until terminated.
+                        clear() # Clear the console output.
+                        print("Time: " + str(timer_length) + " seconds") # Show the current timer time.
+                        time.sleep(1) # Wait 1 second before repeating the loop.
+                        timer_length = timer_length - 1 # Increment the timer down by 1 second.
+
+                        if (timer_length <= 0): # Check to see if the timer is complete by checking to see if the timer length is less than or equal to 0 seconds.
+                            break # Terminate the timer loop.
+
+                    clear() # Clear the console output.
+                    print("Timer complete!") # Inform the user that the timer has completed.
+                    input("Press enter to continue...") # Wait for the user to press enter before continuing.
+                        
+                except KeyboardInterrupt: # Wait for the user to press Control + C, then break the loop and return to the main menu.
+                    clear() # Clear the console output.
+                    print("Timer cancelled") # Inform the user that the timer has been cancelled.
+                    input("Press enter to continue...") # Wait for the user to press enter before continuing.
+
 
 
         else:

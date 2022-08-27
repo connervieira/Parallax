@@ -10,7 +10,8 @@
             "heading": 87.2,
             "satellites": 6
         },
-        "refresh_delay": 1
+        "refresh_delay": 1,
+         "startup_time": 1
     },
     "display": {
         "displays": {
