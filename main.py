@@ -183,7 +183,7 @@ while True: # Run forever in a loop until terminated.
             beacon_data.append(beacon_tag)
             beacon_data.append(beacon_author)
 
-            # TODO - Save beacon to database.
+            display_notice("Beacon saving has not been implemented", 2) # TODO - Save beacon to database.
 
 
 
