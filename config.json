@@ -31,8 +31,6 @@
             },
             "satellites": true
         },
-        "large_critical_display": true,
-        "heading_as_cardinal_direction": true,
         "ascii_art_header": true,
         "custom_startup_message": "",
         "notices": {
