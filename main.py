@@ -2,11 +2,11 @@
 
 # Copyright (C) 2022 V0LT - Conner Vieira 
 
-# This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
-# You should have received a copy of the GNU General Public License along with this program (LICENSE.md)
+# You should have received a copy of the GNU Affero General Public License along with this program (LICENSE)
 # If not, see https://www.gnu.org/licenses/ to read the license agreement.
 
 
@@ -98,10 +98,6 @@ current_location = [] # Set the current location variable to a placeholder befor
 
 while True: # Run forever in a loop until terminated.
 
-    if (config["general"]["active_config_refresh"] == True): # Check to see if the configuration indicates to actively refresh the configuration during runtime.
-        config = json.load(open(parallax_root_directory + "/config.json")) # Load the configuration database from config.json
-
-
     while True:
         clear()
         print("Please select an option.")
@@ -173,18 +169,35 @@ while True: # Run forever in a loop until terminated.
 
             beacon_title = input("Title: ")
             beacon_note = input("Note: ")
-            beacon_tag = input("Tag: ")
-            beacon_author = input("Author: ")
+            beacon_tags = input("Tags: ")
+            if (config["beacons"]["author"] == ""): # Check to see if the author setting was left blank.
+                beacon_author = input("Author: ") # Prompt the user to enter an author name for this beacon.
+            else:
+                beacon_author = config["beacons"]["author"] # Set the author of this beacon to the author set in the configuration.
 
-            beacon_data = []
-            beacon_data.append(current_location)
-            beacon_data.append(beacon_title)
-            beacon_data.append(beacon_note)
-            beacon_data.append(beacon_tag)
-            beacon_data.append(beacon_author)
+            beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
 
-            display_notice("Beacon saving has not been implemented", 2) # TODO - Save beacon to database.
+            if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
+                beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
+            else: # The beacon file does not exist.
+                beacons = [] # Load a blank placeholder list of beacons.
 
+            beacon_data = {}
+            beacon_data["location"] = {"lon": current_location[0], "lat": current_location[1], "alt": current_location[3]}
+            beacon_data["title"] = beacon_title
+            beacon_data["note"] = beacon_note
+            beacon_data["tags"] = beacon_tags.split(",")
+            beacon_data["author"] = beacon_author
+            beacon_data["time"] = {}
+            beacon_data["time"]["created"] = time.time()
+            beacon_data["time"]["modified"] = time.time()
+            beacon_data["time"]["seen"] = time.time()
+
+            for key, tag in enumerate(beacon_data["tags"]): # Iterate through each tag entered by the user.
+                beacon_data["tags"][key] = tag.strip() # Remove any trailing or leading whitespaces from each tag.
+
+            beacons.append(beacon_data) # Add this beacon to the complete list of beacons.
+            save_to_file(beacon_file, json.dumps(beacons), True) # Save the beacon list to disk.
 
 
 
