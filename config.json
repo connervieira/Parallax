@@ -1,5 +1,6 @@
 {
     "general": {
+        "working_directory": "/home/test/Documents/Parallax",
         "active_config_refresh": true,
         "gps_demo_mode": {
             "enabled": true,
