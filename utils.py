@@ -304,19 +304,6 @@ def get_distance(lat1, lon1, lat2, lon2):
 
 
 
-def nearby_database_poi(current_lat, current_lon, database_information, radius=1.0): # This function is used to get a list of all points of interest from a particular database within a certain range of a given location.
-    nearby_database_information = [] # Create a placeholder list to add the nearby POIs to in the next steps.
-    for entry in database_information["entries"]: # Iterate through each entry in the loaded database information.
-        current_distance = get_distance(current_lat, current_lon, entry['latitude'], entry['longitude']) # Get the current distance to the POI in question.
-        entry["distance"] = current_distance # Append the current POI's distance to it's database information.
-        if (current_distance < float(radius)): # Check to see if the current POI is within range of the user.
-            nearby_database_information.append(entry) # Add this entry to the list of POIs within range.
-    return nearby_database_information # Return the new database with the newly added distance information.
-
-
-
-
-
 
 
 def convert_speed(speed, unit="mph"): # This function is used to convert speeds from meters per second, to other units.

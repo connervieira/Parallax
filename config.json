@@ -1,6 +1,6 @@
 {
     "general": {
-        "working_directory": "",
+        "working_directory": "/home/cvieira/Downloads/",
         "gps_demo_mode": {
             "enabled": true,
             "longitude": 41.0,
@@ -15,7 +15,14 @@
     },
     "beacons": {
         "file_name": "beacons.json",
-        "author": ""
+        "author": "",
+        "distances": {
+            "thresholds": {
+                "alert": 0.25,
+                "critical": 0.05
+            },
+            "consider_altitude": true
+        }
     },
     "display": {
         "displays": {

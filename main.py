@@ -1,6 +1,6 @@
-#Parallax
+# Parallax
 
-# Copyright (C) 2022 V0LT - Conner Vieira 
+# Copyright (C) 2023 V0LT - Conner Vieira 
 
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -41,7 +41,7 @@ import math # Required to run more complex math functions.
 from geopy.distance import great_circle # Required to calculate distance between locations.
 import random # Required to generate random numbers.
 
-import utils # Import the utils.py scripts.
+import utils # Import the utils.py script.
 style = utils.style # Load the style from the utils script.
 clear = utils.clear # Load the screen clearing function from the utils script.
 process_gpx = utils.process_gpx # Load the GPX processing function from the utils script.
@@ -51,12 +51,14 @@ display_shape = utils.display_shape # Load the shape displaying function from th
 countdown = utils.countdown # Load the timer countdown function from the utils script.
 get_gps_location = utils.get_gps_location # Load the function to get the current GPS location.
 get_distance = utils.get_distance # Load the function to get the distance between to global positions.
-nearby_database_poi = utils.nearby_database_poi # Load the function used to check for general nearby points of interest.
 convert_speed = utils.convert_speed # Load the function used to convert speeds from meters per second to other units.
 display_number = utils.display_number # Load the function used to display numbers as large ASCII font.
 get_cardinal_direction = utils.get_cardinal_direction # Load the function used to convert headings from degrees to cardinal directions.
 play_sound = utils.play_sound # Load the function used to play sounds specified in the configuration based on their IDs.
 display_notice = utils.display_notice  # Load the function used to display notices, warnings, and errors.
+
+import beacons # Import the beacons.py script.
+get_nearby_beacons = beacons.get_nearby_beacons
 
 
 
@@ -108,6 +110,13 @@ while True: # Run forever in a loop until terminated.
 
 
         if (selection == "1"): # The user has selected to open the information displays.
+
+            beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
+            if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
+                beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
+            else: # The beacon file does not exist.
+                beacons = [] # Load a blank placeholder list of beacons.
+
             while True: # Run the information display loop forever until terminated.
                 try:
                     clear() # Clear the console output at the beginning of every cycle.
@@ -151,14 +160,9 @@ while True: # Run forever in a loop until terminated.
                         print("Satellites: " + str(current_location[5])) # Print the current altitude satellite count to the console.
 
 
-                    beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
+                    nearby_beacons = get_nearby_beacons(current_location, beacons)
 
-                    if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
-                        beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
-                    else: # The beacon file does not exist.
-                        beacons = [] # Load a blank placeholder list of beacons.
-
-                    # TODO: Determine nearby beacons.
+                    # TODO: Display nearby beacons.
 
 
 
