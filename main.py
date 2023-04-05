@@ -151,6 +151,16 @@ while True: # Run forever in a loop until terminated.
                         print("Satellites: " + str(current_location[5])) # Print the current altitude satellite count to the console.
 
 
+                    beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
+
+                    if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
+                        beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
+                    else: # The beacon file does not exist.
+                        beacons = [] # Load a blank placeholder list of beacons.
+
+                    # TODO: Determine nearby beacons.
+
+
 
                     time.sleep(float(config["general"]["refresh_delay"])) # Wait for a certain amount of time, as specified in the configuration.
 
