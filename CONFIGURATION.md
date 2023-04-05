@@ -25,6 +25,15 @@ This section of configuration values effect the behavior of beacons.
     - This file should be a `.json` file.
 - `author` is a string that sets the author of each beacon when it is created.
     - When this value is left blank, the user will be prompted to enter the author's name each time they create a beacon.
+- `distances` contains configuration values regarding distances to beacons.
+    - `thresholds` contain values that set distance thresholds for various events.
+        - `alert` is a decimal number sets the distance (in miles) to beacons where a notification will be displayed while the information display is active.
+        - `critical` is a decimal number that set the distance (in miles) to a beacon, where Parallax considers the beacon to be visited.
+    - `consider_altitude` is a boolean value that determines whether altitude will be considered when calculating distance.
+        - Under normal circumstances, this won't have much of an effect on alert behavior, since the GPS location will usually be at a similar altitude to the altitude of the beacon. As such, this should usually be set to `false` to reduce the unpredictable effects of GPS jitter.
+        - The altitude calculation does not account for the curvature of the planet.
+            - Take for example, a plane flying towards a target that is 200 miles away, but at the same altitude as the plane. In reality, the target will be lower than the plane, relative to the pilot, since the Earth curves down and away from them. Parallax does not account for this, since it makes more intuitive sense to conduct calculations assuming the target is directly ahead.
+            - Across shorter distances, this characteristic doesn't make a meaningful impcat on the accuracy of distance calculations.
 
 
 ## Display Configuration

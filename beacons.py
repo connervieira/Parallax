@@ -33,7 +33,9 @@ def get_nearby_beacons(current_location, beacons):
     for beacon in beacons:
         distance = get_distance(current_lat, current_lon, beacon["location"]["lat"], beacon["location"]["lon"])
         if (config["beacons"]["distances"]["consider_altitude"] == True):
-            altitude_difference = current_alt - beacon["location"]["alt"]
-            distance = math.sqrt(distance**2 + altitude_difference**2) # TODO: Verify that this works as expected.
+            altitude_difference = 0.0006213712 * (current_alt - beacon["location"]["alt"]) # Get the altitude difference, measured in miles.
+            distance = math.sqrt((distance**2) + (altitude_difference**2))
+
+    input (distance)
 
     # TODO: Return list of nearby beacons.
