@@ -30,12 +30,15 @@ def get_nearby_beacons(current_location, beacons):
     current_lat = current_location[1]
     current_alt = current_location[3]
 
+    nearby_beacons = []
+
     for beacon in beacons:
-        distance = get_distance(current_lat, current_lon, beacon["location"]["lat"], beacon["location"]["lon"])
+        distance = get_distance(current_lat, current_lon, beacon["location"]["lat"], beacon["location"]["lon"]) # Get the distance from the beacon in a 2 dimensional plane.
         if (config["beacons"]["distances"]["consider_altitude"] == True):
             altitude_difference = 0.0006213712 * (current_alt - beacon["location"]["alt"]) # Get the altitude difference, measured in miles.
-            distance = math.sqrt((distance**2) + (altitude_difference**2))
+            distance = math.sqrt((distance**2) + (altitude_difference**2)) # Calculate the distance from the beacon, given the two dimensional distance and the altitude difference.
+            if (distance < float(config["beacons"]["distances"]["thresholds"]["alert"])): # Check to see if this value is within the alert distance.
+                beacon["distance"] = distance
+                nearby_beacons.append(beacon)
 
-    input (distance)
-
-    # TODO: Return list of nearby beacons.
+    return nearby_beacons

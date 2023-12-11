@@ -55,6 +55,7 @@ convert_speed = utils.convert_speed # Load the function used to convert speeds f
 display_number = utils.display_number # Load the function used to display numbers as large ASCII font.
 get_cardinal_direction = utils.get_cardinal_direction # Load the function used to convert headings from degrees to cardinal directions.
 play_sound = utils.play_sound # Load the function used to play sounds specified in the configuration based on their IDs.
+play_voice = utils.play_voice # Load the function used to play voice samples.
 display_notice = utils.display_notice  # Load the function used to display notices, warnings, and errors.
 
 import beacons # Import the beacons.py script.
@@ -90,6 +91,7 @@ time.sleep(float(config["general"]["startup_time"])) # Wait for a certain amount
 
 
 play_sound("startup")
+play_voice("/system/startup.mp3")
 
 
 
@@ -101,6 +103,7 @@ current_location = [] # Set the current location variable to a placeholder befor
 while True: # Run forever in a loop until terminated.
 
     while True:
+        play_voice("/system/menu/base.mp3")
         clear()
         print("Please select an option.")
         print("1. Information Display")
@@ -160,9 +163,9 @@ while True: # Run forever in a loop until terminated.
                         print("Satellites: " + str(current_location[5])) # Print the current altitude satellite count to the console.
 
 
-                    nearby_beacons = get_nearby_beacons(current_location, beacons)
-
-                    # TODO: Display nearby beacons.
+                    nearby_beacons = get_nearby_beacons(current_location, beacons) # Determine a list of beacons that are within the alert distance.
+                    for beacon in nearby_beacons: # Iterate through each nearby beacon.
+                        print(beacon)
 
 
 
@@ -180,6 +183,7 @@ while True: # Run forever in a loop until terminated.
 
             input("Press enter to drop beacon...")
             current_location = get_gps_location() # Get the current location.
+            play_voice("/system/menu/options/beacon/start.mp3")
 
             beacon_title = input("Title: ")
             beacon_note = input("Note: ")

@@ -5,6 +5,11 @@
 A rapid navigation system that takes a new, performance-centric approach to transportation.
 
 
+## Note
+
+Parallax is extremely early in development. Many of the features described here have not yet been implemented.
+
+
 ## Description
 
 Parallax is designed to be the navigation system for people who want to put driving before the destination. Unlike other navigation systems, it takes a back-seat, subdued approach to directions, and provides basic information about locations around you. Parallax allows you to drop 'beacons' at important locations, and leave notes for future reference. It can autonomously locate data about surrounding points-of-interest, like business phone numbers, road speed limits, and parking spaces. Think of Parallax as a copilot in the passenger seat to help with tedious navigation tasks, not a map to give you step-by-step directions to your destination.

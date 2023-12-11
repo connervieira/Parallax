@@ -44,7 +44,7 @@ import math # Required to run more complex math calculations
 from geopy.distance import great_circle # Required to calculate distance between locations.
 from gps import * # Required to access GPS information.
 import gpsd
-
+from mutagen.mp3 import MP3 # Required to access information about MP3 files.
 
 
 
@@ -402,7 +402,17 @@ def play_sound(sound_id):
         input("Press enter to continue...")
 
 
+def play_voice(sound_file_path):
+    if (config["audio"]["voice"]["enabled"] == True):
+        full_sound_file_path = config["audio"]["voice"]["base_directory"] + sound_file_path
+        if (os.path.exists(full_sound_file_path) == True):
 
+            audio_file = MP3(full_sound_file_path) # Load the audio file.
+            os.system("mpg321 " + full_sound_file_path + " > /dev/null 2>&1 &") # Play the sound file.
+            time.sleep(audio_file.info.length) # Wait for the audio file to finish.
+            del audio_file # Delete the audio file from memory.
+        else:
+            print(style.yellow + "Warning: The specified voice sample (" + full_sound_file_path + ") does not exist." + style.end)
 
 
 
