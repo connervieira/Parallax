@@ -13,15 +13,18 @@ This is the installation process for Parallax and all of it's dependencies. This
     - GPSD is required for Parallax to communicate with GPS devices.
     - You can install GPSD using this command on a Debian based Linux machine: `sudo apt-get install gpsd gpsd-clients`
     - It may also be necessary to start GPSD. You can test to see if GPSD is working properly using the `cgps` command.
-3. Optionally, install MPG321 (Recommended)
+3. Install Mutagen for Python3 (Required)
+    - Parallax required Mutagen to get information about MP3 files.
+    - You can instal Mutagen using the following command: `pip3 install mutagen`
+4. Optionally, install MPG321 (Recommended)
     - Parallax requires MPG321 in order to play audio effects for alerts.
     - If you don't install MPG321, Parallax will encounter errors when audio alerts are enabled in the configuration.
     - You can install MPG321 using the following command on a Debian based Linux machine: `sudo apt-get install mpg321`
-4. Optionally, install RaspAP
-    - If you're installing Parallax on a Raspberry Pi, you may find it useful to install a program like [RaspAP](https://github.com/RaspAP/raspap-webgui) (or similar program) in order to remotely manage your Parallax instance, and eliminate the need for a full keyboard and display.
+5. Optionally, install RaspAP
+    - If you're installing Parallax on a Raspberry Pi, you may find it useful to install a program like [RaspAP](https://github.com/RaspAP/raspap-webgui) in order to remotely manage your Parallax instance, and eliminate the need for a full keyboard and display.
     - Parallax works entirely via command line, meaning any set up that enables SSH access to the host will allow for remote management of Parallax.
     - If you already have an access point installed in the same area as Parallax, you can simply connect Parallax to it, and use SSH on a separate device to access the instance remotely.
-5. Download Parallax
+6. Download Parallax
     - Download Parallax from wherever you received it, and extract it to somewhere on your filesystem. The Parallax folder can be placed anywhere with appropriate permissions, but don't place any external files in the Parallax root directory to prevent any conflicts.
 
 
