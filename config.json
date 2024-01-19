@@ -30,7 +30,7 @@
             "date": true,
             "speed": {
                 "small_display": true,
-                "large_display": false,
+                "large_display": true,
                 "decimal_places": 2,
                 "unit": "mph"
             },

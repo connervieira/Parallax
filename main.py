@@ -119,21 +119,21 @@ while True: # Run forever in a loop until terminated.
                 beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
             else: # The beacon file does not exist.
                 beacons = [] # Load a blank placeholder list of beacons.
+                display_notice("The beacons file does not exist, so no beacons were loaded. This may be the case if this is the first time Parallax has been run.", level=2)
 
+
+            speed_history = {} # This is a placeholder dictionary that will record the vehicle's speed over time.
             while True: # Run the information display loop forever until terminated.
                 try:
                     clear() # Clear the console output at the beginning of every cycle.
 
                     last_location = current_location # Set the last location to the current location immediately before we update the current location for the next cycle.
                     current_location = get_gps_location() # Get the current location.
+                    speed_history[time.time()] = current_location[2] # Record the current speed to the speed history.
                     current_speed = round(convert_speed(float(current_location[2]), config["display"]["displays"]["speed"]["unit"])*10**int(config["display"]["displays"]["speed"]["decimal_places"]))/(10**int(config["display"]["displays"]["speed"]["decimal_places"])) # Convert the speed data from the GPS into the units specified by the configuration.
-
-
 
                     # Show all configured basic information displays.
                     if (config["display"]["displays"]["speed"]["large_display"] == True): # Check to see the large speed display is enabled in the configuration.
-                        current_speed = convert_speed(float(current_location[2]), config["display"]["displays"]["speed"]["unit"]) # Convert the speed data from the GPS into the units specified by the configuration.
-                        current_speed = round(current_speed * 10**int(config["display"]["displays"]["speed"]["decimal_places"]))/10**int(config["display"]["displays"]["speed"]["decimal_places"]) # Round off the current speed to a certain number of decimal places as specific in the configuration.
                         display_number(current_speed) # Display the current speed in a large ASCII font.
 
                     if (config["display"]["displays"]["time"] == True): # Check to see the time display is enabled in the configuration.
@@ -165,7 +165,10 @@ while True: # Run forever in a loop until terminated.
 
                     nearby_beacons = get_nearby_beacons(current_location, beacons) # Determine a list of beacons that are within the alert distance.
                     for beacon in nearby_beacons: # Iterate through each nearby beacon.
-                        print(beacon)
+                        print(beacon) # TODO: Replace with formatted output.
+
+
+                    # TODO: Calculate average speed using the `speed_history`, and play relevant notifications.
 
 
 
