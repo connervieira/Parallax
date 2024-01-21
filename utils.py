@@ -1,6 +1,6 @@
 # Parallax
 
-# Copyright (C) 2022 V0LT - Conner Vieira 
+# Copyright (C) 2024 V0LT - Conner Vieira 
 
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by# the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -416,6 +416,7 @@ def play_voice(sound_file_path):
 
 
 
+# This function displays notices, warnings, and errors.
 def display_notice(message, level=1):
     level = int(level) # Convert the message level to an integer.
 
@@ -439,3 +440,23 @@ def display_notice(message, level=1):
             input("Press enter to continue...") # Wait for the user to press enter before continuning.
         else: # If the configuration doesn't indicate to wait for user input, then wait for a delay specified in the configuration for this notice level.
             time.sleep(float(config["display"]["notices"]["3"]["delay"])) # Wait for the delay specified in the configuration.
+
+
+
+# This function calculates the average change in speed given a dictionary of speed datapoints and a target age (in seconds) to calculate the acceleration over.
+def calculate_average_speed(speed_history, target_age):
+    if (len(speed_history) >= 2): # Make sure there are at least 2 entries in the speed history before attempting to calculate the average change in speed.
+        target_time = time.time() - target_age
+        current_closest_time = 0 # This will hold the time from the speed history that is the closest to the target time.
+        for history_entry_time in speed_history.keys(): # Iterate through each timestamp in the speed history.
+            if (abs(history_entry_time - target_time) < abs(current_closest_time - target_time)): # Check to see if this timestamp is closer than the current closest.
+                current_closest_time = history_entry_time # Make this timestamp the new current closest.
+        
+        most_recent_time = sorted(speed_history.keys())[-1] # Get the time of the most recent datapoint in the speed history.
+        time_difference = most_recent_time - current_closest_time # Calculate the exact time difference between the two speed datapoints.
+        speed_difference = speed_history[most_recent_time] - speed_history[current_closest_time] # Calculate the speed difference between the two speed datapoints.
+        average_acceleration = speed_difference / time_difference # Calculate the average acceleration.
+    else: # If there aren't enough datapoints to calculate the average speed, default to an acceleration of 0 m/s/s.
+        average_acceleration = 0
+
+    return average_acceleration

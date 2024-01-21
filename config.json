@@ -28,7 +28,8 @@
         "launch": {
             "detection": {
                 "threshold": 2,
-                "time": 3
+                "time": 3,
+		"cooldown": 15
             }
         }
     },

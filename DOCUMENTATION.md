@@ -8,23 +8,20 @@ This document contains the information you need to know to set up and use Parall
 This is the installation process for Parallax and all of it's dependencies. This process is written assuming you're running a Debian based distribution of GNU/Linux, but it's theoretically possible to get Parallax to function on MacOS and BSD as well.
 
 1. Install the required Python packages. (Required)
-    - `pip3 install validators gps geopy gpsd-py3 gpsd requests`
+    - `pip3 install validators gps geopy gpsd-py3 gpsd requests mutagen`
 2. Install GPSD (Required)
     - GPSD is required for Parallax to communicate with GPS devices.
     - You can install GPSD using this command on a Debian based Linux machine: `sudo apt-get install gpsd gpsd-clients`
     - It may also be necessary to start GPSD. You can test to see if GPSD is working properly using the `cgps` command.
-3. Install Mutagen for Python3 (Required)
-    - Parallax required Mutagen to get information about MP3 files.
-    - You can instal Mutagen using the following command: `pip3 install mutagen`
-4. Optionally, install MPG321 (Recommended)
+3. Optionally, install MPG321 (Recommended)
     - Parallax requires MPG321 in order to play audio effects for alerts.
     - If you don't install MPG321, Parallax will encounter errors when audio alerts are enabled in the configuration.
     - You can install MPG321 using the following command on a Debian based Linux machine: `sudo apt-get install mpg321`
-5. Optionally, install RaspAP
+4. Optionally, install RaspAP
     - If you're installing Parallax on a Raspberry Pi, you may find it useful to install a program like [RaspAP](https://github.com/RaspAP/raspap-webgui) in order to remotely manage your Parallax instance, and eliminate the need for a full keyboard and display.
     - Parallax works entirely via command line, meaning any set up that enables SSH access to the host will allow for remote management of Parallax.
     - If you already have an access point installed in the same area as Parallax, you can simply connect Parallax to it, and use SSH on a separate device to access the instance remotely.
-6. Download Parallax
+5. Download Parallax
     - Download Parallax from wherever you received it, and extract it to somewhere on your filesystem. The Parallax folder can be placed anywhere with appropriate permissions, but don't place any external files in the Parallax root directory to prevent any conflicts.
 
 

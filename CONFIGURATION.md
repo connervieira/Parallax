@@ -38,9 +38,12 @@ This section of configuration values effect the behavior of beacons.
 ## Monitoring Configuration
 
 - `launch` contains settings for launch detection and monitoring.
-    - `detection`
+    - `detection` contains settings for detection launch events.
         - `threshold` determines how quickly the vehicle needs to accelerate for a launch to be detected, measured in change in meters per second per second (m/s^2).
-        - `time` is the approximate time that Parallax will attempt to average the acceleration over.
+        - `time` is the approximate time (in seconds) that Parallax will attempt to average the acceleration over.
+            - The calculation process will only use this approximate value, since speed datapoints are only recorded at discrete intervals.
+	- `cooldown` sets the minimum in time (in seconds) before launch detection will be reset after a launch is detected.
+            - This prevents Parallax from repeatedly alerting for the same launch event.
 
 ## Display Configuration
 

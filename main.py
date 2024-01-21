@@ -57,6 +57,7 @@ get_cardinal_direction = utils.get_cardinal_direction # Load the function used t
 play_sound = utils.play_sound # Load the function used to play sounds specified in the configuration based on their IDs.
 play_voice = utils.play_voice # Load the function used to play voice samples.
 display_notice = utils.display_notice  # Load the function used to display notices, warnings, and errors.
+calculate_average_speed = utils.calculate_average_speed # Load the function used to calculate the average speed over a given time.
 
 import beacons # Import the beacons.py script.
 get_nearby_beacons = beacons.get_nearby_beacons
@@ -130,7 +131,9 @@ while True: # Run forever in a loop until terminated.
                     last_location = current_location # Set the last location to the current location immediately before we update the current location for the next cycle.
                     current_location = get_gps_location() # Get the current location.
                     speed_history[time.time()] = current_location[2] # Record the current speed to the speed history.
+                    average_acceleration = calculate_average_speed(speed_history, config["monitoring"]["launch"]["detection"]["time"]) # Calculate the average acceleration.
                     current_speed = round(convert_speed(float(current_location[2]), config["display"]["displays"]["speed"]["unit"])*10**int(config["display"]["displays"]["speed"]["decimal_places"]))/(10**int(config["display"]["displays"]["speed"]["decimal_places"])) # Convert the speed data from the GPS into the units specified by the configuration.
+
 
                     # Show all configured basic information displays.
                     if (config["display"]["displays"]["speed"]["large_display"] == True): # Check to see the large speed display is enabled in the configuration.
@@ -168,7 +171,11 @@ while True: # Run forever in a loop until terminated.
                         print(beacon) # TODO: Replace with formatted output.
 
 
-                    # TODO: Calculate average speed using the `speed_history`, and play relevant notifications.
+                    if (average_acceleration > float(config["monitoring"]["launch"]["detection"]["threshold"])): # Check to see if the average acceleration exceeds the launch detection threshold.
+                        print("Launch mode active (" + str(average_speed) + " m/s^2)")
+                        # TODO: Play launch detection voice sample.
+                        last_launch_time = time.time() # Record the last time that a launch was detected as the current time.
+                        print(average_speed)
 
 
 
