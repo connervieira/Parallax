@@ -293,7 +293,6 @@ def get_gps_location(demo=False): # Placeholder that should be updated at a late
             elif (config["general"]["gps"]["provider"] == "termux"): # Check to see if Parallax is configured to use the Termux API location provider.
                   raw_termux_response = str(os.popen("termux-location").read()) # Execute the Termux location command.
                   termux_response = json.loads(raw_termux_response) # Load the location information from the Termux response.
-                  debug_message("Received termux-location information")
                   return termux_response["latitude"], termux_response["longitude"], termux_response["speed"], termux_response["altitude"], termux_response["bearing"], 0 # Return the fetched GPS information.
             else:
                 display_notice("Unrecognized location provider configured", 3)
