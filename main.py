@@ -134,8 +134,6 @@ while True: # Run forever in a loop until terminated.
                     average_acceleration = calculate_average_speed(speed_history, config["monitoring"]["launch"]["detection"]["time"]) # Calculate the average acceleration.
                     current_speed = round(convert_speed(float(current_location[2]), config["display"]["displays"]["speed"]["unit"])*10**int(config["display"]["displays"]["speed"]["decimal_places"]))/(10**int(config["display"]["displays"]["speed"]["decimal_places"])) # Convert the speed data from the GPS into the units specified by the configuration.
 
-                    print("Acceleration: " + str(average_acceleration) + " m/s^2") # TODO: Remove after testing.
-
 
                     # Show all configured basic information displays.
                     if (config["display"]["displays"]["speed"]["large_display"] == True): # Check to see the large speed display is enabled in the configuration.
@@ -176,10 +174,9 @@ while True: # Run forever in a loop until terminated.
                     if (average_acceleration > float(config["monitoring"]["launch"]["detection"]["threshold"])): # Check to see if the average acceleration exceeds the launch detection threshold.
                         print("Launch mode active (" + str(average_speed) + " m/s^2)")
                         if (time.time() - last_launch_time > float(config["monitoring"]["launch"]["detection"]["cooldown"])): # Check to see if a minimum amount of seconds have passed since Parallax has alerted to a launch event.
-                            pass
-                            # TODO: Play launch detection voice sample.
+                            play_voice("/alerts/speed/launch.mp3")
                         last_launch_time = time.time() # Record the last time that a launch was detected as the current time.
-                        print(average_speed)
+                        print("Acceleration: " + str(average_speed) + " m/s^s")
 
 
 
