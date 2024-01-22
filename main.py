@@ -176,6 +176,7 @@ while True: # Run forever in a loop until terminated.
                     if (average_acceleration > float(config["monitoring"]["launch"]["detection"]["threshold"])): # Check to see if the average acceleration exceeds the launch detection threshold.
                         print("Launch mode active (" + str(average_speed) + " m/s^2)")
                         if (time.time() - last_launch_time > float(config["monitoring"]["launch"]["detection"]["cooldown"])): # Check to see if a minimum amount of seconds have passed since Parallax has alerted to a launch event.
+                            pass
                             # TODO: Play launch detection voice sample.
                         last_launch_time = time.time() # Record the last time that a launch was detected as the current time.
                         print(average_speed)

@@ -461,7 +461,10 @@ def calculate_average_speed(speed_history, target_age):
         most_recent_time = sorted(speed_history.keys())[-1] # Get the time of the most recent datapoint in the speed history.
         time_difference = most_recent_time - current_closest_time # Calculate the exact time difference between the two speed datapoints.
         speed_difference = speed_history[most_recent_time] - speed_history[current_closest_time] # Calculate the speed difference between the two speed datapoints.
-        average_acceleration = speed_difference / time_difference # Calculate the average acceleration.
+        if (time_difference == 0):
+            average_acceleration = 0
+        else:
+            average_acceleration = speed_difference / time_difference # Calculate the average acceleration.
     else: # If there aren't enough datapoints to calculate the average speed, default to an acceleration of 0 m/s/s.
         average_acceleration = 0
 
