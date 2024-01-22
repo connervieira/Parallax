@@ -8,7 +8,7 @@ This document contains the information you need to know to set up and use Parall
 This is the installation process for Parallax and all of it's dependencies. This process is written assuming you're running a Debian based distribution of GNU/Linux, but it's theoretically possible to get Parallax to function on MacOS and BSD as well.
 
 1. Install the required Python packages. (Required)
-    - `pip3 install validators gps geopy gpsd-py3 gpsd requests`
+    - `pip3 install validators gps geopy gpsd-py3 gpsd requests mutagen`
 2. Install GPSD (Required)
     - GPSD is required for Parallax to communicate with GPS devices.
     - You can install GPSD using this command on a Debian based Linux machine: `sudo apt-get install gpsd gpsd-clients`
@@ -18,7 +18,7 @@ This is the installation process for Parallax and all of it's dependencies. This
     - If you don't install MPG321, Parallax will encounter errors when audio alerts are enabled in the configuration.
     - You can install MPG321 using the following command on a Debian based Linux machine: `sudo apt-get install mpg321`
 4. Optionally, install RaspAP
-    - If you're installing Parallax on a Raspberry Pi, you may find it useful to install a program like [RaspAP](https://github.com/RaspAP/raspap-webgui) (or similar program) in order to remotely manage your Parallax instance, and eliminate the need for a full keyboard and display.
+    - If you're installing Parallax on a Raspberry Pi, you may find it useful to install a program like [RaspAP](https://github.com/RaspAP/raspap-webgui) in order to remotely manage your Parallax instance, and eliminate the need for a full keyboard and display.
     - Parallax works entirely via command line, meaning any set up that enables SSH access to the host will allow for remote management of Parallax.
     - If you already have an access point installed in the same area as Parallax, you can simply connect Parallax to it, and use SSH on a separate device to access the instance remotely.
 5. Download Parallax

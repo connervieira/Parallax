@@ -27,13 +27,22 @@
             "consider_altitude": true
         }
     },
+    "monitoring": {
+        "launch": {
+            "detection": {
+                "threshold": 2,
+                "time": 1,
+		"cooldown": 15
+            }
+        }
+    },
     "display": {
         "displays": {
             "time": true,
             "date": true,
             "speed": {
                 "small_display": true,
-                "large_display": false,
+                "large_display": true,
                 "decimal_places": 2,
                 "unit": "mph"
             },
