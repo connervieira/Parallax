@@ -295,7 +295,10 @@ def get_gps_location(demo=False): # Placeholder that should be updated at a late
                   termux_response = json.loads(raw_termux_response) # Load the location information from the Termux response.
                   debug_message("Received termux-location information")
                   return termux_response["latitude"], termux_response["longitude"], termux_response["speed"], termux_response["altitude"], termux_response["bearing"], 0 # Return the fetched GPS information.
+            else:
+                display_notice("Unrecognized location provider configured", 3)
         except: # If the current location can't be established, then return placeholder location data.
+            display_notice("Failed to fetch location information", 2)
             return 0.0000, -0.0000, 0.0, 0.0, 0.0, 0 # Return a default placeholder location.
 
 
