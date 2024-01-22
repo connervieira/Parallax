@@ -1,14 +1,17 @@
 {
     "general": {
         "working_directory": "/home/cvieira/Downloads/",
-        "gps_demo_mode": {
-            "enabled": true,
-            "longitude": 41.01,
-            "latitude": -81.01,
-            "speed": 36.4,
-            "altitude": 132.0,
-            "heading": 87.2,
-            "satellites": 6
+        "gps": {
+            "provider": "gpsd",
+            "demo_mode": {
+                "enabled": true,
+                "longitude": 41.01,
+                "latitude": -81.01,
+                "speed": 36.4,
+                "altitude": 132.0,
+                "heading": 87.2,
+                "satellites": 6
+            }
         },
         "refresh_delay": 1,
          "startup_time": 1

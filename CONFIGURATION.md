@@ -9,8 +9,13 @@ This section of configuration values will effect Parallax's general operation.
 
 - `working_directory` is a string that sets the absolute path of the working directory.
     - The working directory is where Parallax stores information while it runs.
-- `gps_demo_mode` is used to supply Parallax with fake GPS data for sake of demonstration purposes.
-    - To use this feature, simply set `enabled` to `true`, then set each GPS variable to any value you want. Parallax will use this fake information whenever it would otherwise poll the GPS for information.
+- `gps` contains settings for configuring GPS functionality.
+    - `provider` is a string that determines which GPS provider Parallax will use to fetch location information.
+        - This value can only be set to one of the following values:
+            - `"gpsd"` for GPSD.
+            - `"termux"` for Termux API location provider (`termux-location`).
+    - `demo_mode` is used to supply Parallax with fake GPS data for sake of demonstration purposes.
+        - To use this feature, simply set `enabled` to `true`, then set each GPS variable to any value you want. Parallax will use this fake information whenever it would otherwise poll the GPS for information.
 - `refresh_delay` is a decimal number that determines how long Parallax will wait between refreshes in seconds. Generally, 1 second is appropriate, but you can increase or decrease the delay to improve precision, or save processing power.
 - `startup_time` is a decimal number that determines how long Parallax will wait after showing the startup logo, in seconds.
     - Increasing this value will allow the Parallax header to remain visible for longer.

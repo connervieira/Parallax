@@ -282,13 +282,19 @@ def countdown(timer):
 
 # Define the function that will be used to get the current GPS coordinates.
 def get_gps_location(demo=False): # Placeholder that should be updated at a later date.
-    if (config["general"]["gps_demo_mode"]["enabled"] == True): # Check to see if GPS demo mode is enabled in the configuration.
-        return float(config["general"]["gps_demo_mode"]["longitude"]), float(config["general"]["gps_demo_mode"]["latitude"]), float(config["general"]["gps_demo_mode"]["speed"]), float(config["general"]["gps_demo_mode"]["altitude"]), float(config["general"]["gps_demo_mode"]["heading"]), int(config["general"]["gps_demo_mode"]["satellites"]) # Return the sample GPS information defined in the configuration.
+    if (config["general"]["gps"]["demo_mode"]["enabled"] == True): # Check to see if GPS demo mode is enabled in the configuration.
+        return float(config["general"]["gps"]["demo_mode"]["longitude"]), float(config["general"]["gps"]["demo_mode"]["latitude"]), float(config["general"]["gps"]["demo_mode"]["speed"]), float(config["general"]["gps"]["demo_mode"]["altitude"]), float(config["general"]["gps"]["demo_mode"]["heading"]), int(config["general"]["gps"]["demo_mode"]["satellites"]) # Return the sample GPS information defined in the configuration.
     else: # GPS demo mode is disabled, so attempt to get the actual GPS data from GPSD.
         try: # Don't terminate the entire script if the GPS location fails to be aquired.
-            gpsd.connect() # Connect to the GPS daemon.
-            gps_data_packet = gpsd.get_current() # Get the current information.
-            return gps_data_packet.position()[0], gps_data_packet.position()[1], gps_data_packet.speed(), gps_data_packet.altitude(), gps_data_packet.movement()["track"], gps_data_packet.sats # Return GPS information.
+            if (config["general"]["gps"]["provider"] == "gpsd"): # Check to see if Parallax is configured to use the GPSD location provider.
+                gpsd.connect() # Connect to the GPS daemon.
+                gps_data_packet = gpsd.get_current() # Get the current information.
+                return gps_data_packet.position()[0], gps_data_packet.position()[1], gps_data_packet.speed(), gps_data_packet.altitude(), gps_data_packet.movement()["track"], gps_data_packet.sats # Return GPS information.
+            elif (config["general"]["gps"]["provider"] == "termux"): # Check to see if Parallax is configured to use the Termux API location provider.
+                  raw_termux_response = str(os.popen("termux-location").read()) # Execute the Termux location command.
+                  termux_response = json.loads(raw_termux_response) # Load the location information from the Termux response.
+                  debug_message("Received termux-location information")
+                  return termux_response["latitude"], termux_response["longitude"], termux_response["speed"], termux_response["altitude"], termux_response["bearing"], 0 # Return the fetched GPS information.
         except: # If the current location can't be established, then return placeholder location data.
             return 0.0000, -0.0000, 0.0, 0.0, 0.0, 0 # Return a default placeholder location.
 
