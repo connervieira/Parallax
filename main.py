@@ -119,7 +119,7 @@ while True: # Run forever in a loop until terminated.
             if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
                 beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
             else: # The beacon file does not exist.
-                beacons = [] # Load a blank placeholder list of beacons.
+                beacons = {} # Load a blank placeholder list of beacons.
                 display_notice("The beacons file does not exist, so no beacons were loaded. This may be the case if this is the first time Parallax has been run.", level=2)
 
 
@@ -167,8 +167,28 @@ while True: # Run forever in a loop until terminated.
 
 
                     nearby_beacons = get_nearby_beacons(current_location, beacons) # Determine a list of beacons that are within the alert distance.
-                    for beacon in nearby_beacons: # Iterate through each nearby beacon.
-                        print(beacon) # TODO: Replace with formatted output.
+                    if (len(nearby_beacons) > 0): # Check to see if there is at least one nearby beacon.
+                        print("Nearby Beacons:")
+                        for beacon in nearby_beacons: # Iterate through each nearby beacon.
+                            print("    " + str(beacon["id"]) + ": " + str(beacon["title"]))
+                            if (float(beacon["distance"]) <= config["beacons"]["distances"]["thresholds"]["critical"]): # Check to see if this beacon is close enough to trigger a visit.
+                                print("        " + "Distance: " + str(beacon["distance"]) + " miles (visited)") # Display the note associated with this beacon.
+                            else:
+                                print("        " + "Distance: " + str(beacon["distance"]) + " miles") # Display the note associated with this beacon.
+                            if (beacon["note"] != "" and beacon["note"] != None): # Check to see if there is a note associated with this beacon.
+                                print("        " + "Note: " + str(beacon["note"])) # Display the note associated with this beacon.
+                            if (beacon["author"] != "" and beacon["author"] != None): # Check to see if there is an author associated with this beacon.
+                                print("        " + "Author: " + str(beacon["author"])) # Display the note associated with this beacon.
+
+                            if (float(beacon["distance"]) <= config["beacons"]["distances"]["thresholds"]["critical"]): # Check to see if this beacon is close enough to trigger a visit.
+                                if (time.time() - beacons[beacon["id"]]["time"]["seen"] > 30): # Check to see if it has been at least 30 seconds since this beacon was visited. This prevents what the user would call the same visit from being logged repeatedly if they park nearby.
+                                    beacons[beacon["id"]]["visits"].append(round(time.time())) # Add this visit to the complete list of visits.
+                                beacons[beacon["id"]]["time"]["seen"] = time.time() # Update the last time that this beacon was visited.
+
+                            del(beacon["id"]) # Remove the temporary values from this beacon before saving it.
+                            del(beacon["distance"]) # Remove the temporary values from this beacon before saving it.
+                            beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
+                            save_to_file(beacon_file, json.dumps(beacons), True) # Save the updated beacon dictionary to disk.
 
 
                     if (average_acceleration > float(config["monitoring"]["launch"]["detection"]["threshold"])): # Check to see if the average acceleration exceeds the launch detection threshold.
@@ -196,9 +216,14 @@ while True: # Run forever in a loop until terminated.
             current_location = get_gps_location() # Get the current location.
             play_voice("/system/menu/options/beacon/start.mp3")
 
-            beacon_title = input("Title: ")
-            beacon_note = input("Note: ")
-            beacon_tags = input("Tags: ")
+            beacon_id = "" # Initialize the beacon ID value.
+            while (beacon_id == ""): # Repeatedly prompt the user until a beacon ID is entered.
+                beacon_id = input("ID: ") # Prompt the user to enter a beacon ID.
+                if (beacon_id == ""): # Check to see if a beacon ID was entered.
+                    print("A unique beacon ID is required!") # Inform the user that a beacon ID is required.
+            beacon_title = input("Title: ") # Prompt the user to enter a friendly title for the beacon.
+            beacon_note = input("Note: ") # Prompt the user to associate a note with the beacon.
+            beacon_tags = input("Tags: ") # Prompt the user to enter one or more space-separated tags.
             if (config["beacons"]["author"] == ""): # Check to see if the author setting was left blank.
                 beacon_author = input("Author: ") # Prompt the user to enter an author name for this beacon.
             else:
@@ -207,9 +232,9 @@ while True: # Run forever in a loop until terminated.
             beacon_file = config["general"]["working_directory"] + "/" + config["beacons"]["file_name"] # Form the full file path to the beacons file.
 
             if (os.path.exists(beacon_file)): # Check to see if the beacon file exists.
-                beacons = json.load(open(beacon_file)) # Load the list of beacons from the file.
+                beacons = json.load(open(beacon_file)) # Load the dictionary of beacons from the file.
             else: # The beacon file does not exist.
-                beacons = [] # Load a blank placeholder list of beacons.
+                beacons = {} # Load a blank placeholder dictionary of beacons.
 
             beacon_data = {}
             beacon_data["location"] = {"lon": current_location[0], "lat": current_location[1], "alt": current_location[3]}
@@ -221,11 +246,12 @@ while True: # Run forever in a loop until terminated.
             beacon_data["time"]["created"] = time.time()
             beacon_data["time"]["modified"] = time.time()
             beacon_data["time"]["seen"] = time.time()
+            beacon_data["visits"] = [] # This will be used to hold each instance that the user visits this beacon.
 
             for key, tag in enumerate(beacon_data["tags"]): # Iterate through each tag entered by the user.
                 beacon_data["tags"][key] = tag.strip() # Remove any trailing or leading whitespaces from each tag.
 
-            beacons.append(beacon_data) # Add this beacon to the complete list of beacons.
+            beacons[beacon_id] = beacon_data # Add this beacon to the complete list of beacons.
             save_to_file(beacon_file, json.dumps(beacons), True) # Save the beacon list to disk.
 
 

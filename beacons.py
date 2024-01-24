@@ -1,7 +1,7 @@
 # beacons.py
 # This script contains functions concerning the handling of beacons.
 
-# Copyright (C) 2023 V0LT - Conner Vieira 
+# Copyright (C) 2024 V0LT - Conner Vieira 
 
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -32,13 +32,14 @@ def get_nearby_beacons(current_location, beacons):
 
     nearby_beacons = []
 
-    for beacon in beacons:
-        distance = get_distance(current_lat, current_lon, beacon["location"]["lat"], beacon["location"]["lon"]) # Get the distance from the beacon in a 2 dimensional plane.
+    for beacon in beacons.keys():
+        distance = get_distance(current_lat, current_lon, beacons[beacon]["location"]["lat"], beacons[beacon]["location"]["lon"]) # Get the distance from the beacon in a 2 dimensional plane.
         if (config["beacons"]["distances"]["consider_altitude"] == True):
-            altitude_difference = 0.0006213712 * (current_alt - beacon["location"]["alt"]) # Get the altitude difference, measured in miles.
+            altitude_difference = 0.0006213712 * (current_alt - beacons[beacon]["location"]["alt"]) # Get the altitude difference, measured in miles.
             distance = math.sqrt((distance**2) + (altitude_difference**2)) # Calculate the distance from the beacon, given the two dimensional distance and the altitude difference.
             if (distance < float(config["beacons"]["distances"]["thresholds"]["alert"])): # Check to see if this value is within the alert distance.
-                beacon["distance"] = distance
-                nearby_beacons.append(beacon)
+                beacons[beacon]["distance"] = distance
+                beacons[beacon]["id"] = beacon
+                nearby_beacons.append(beacons[beacon])
 
     return nearby_beacons
