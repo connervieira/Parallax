@@ -20,6 +20,7 @@ This section of configuration values will effect Parallax's general operation.
 - `startup_time` is a decimal number that determines how long Parallax will wait after showing the startup logo, in seconds.
     - Increasing this value will allow the Parallax header to remain visible for longer.
     - Decreasing this value will allow Parallax to start up quicker.
+- `autostart` is a boolean that determines whether or not Parallax will automatically start into the information display when it is started.
 
 
 ## Beacon Configuration

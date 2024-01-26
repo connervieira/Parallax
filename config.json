@@ -14,7 +14,8 @@
             }
         },
         "refresh_delay": 1,
-         "startup_time": 1
+         "startup_time": 1,
+         "autostart": true
     },
     "beacons": {
         "file_name": "beacons.json",

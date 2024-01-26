@@ -22,3 +22,7 @@ Monday, October 24th, 2022
 - Added support for beacons.
     - Added corresponding configuration section.
 - Removed `active_config_refresh` configuration value.
+- Updated information display
+    - Added launch detection.
+    - Added beacon "visiting" behavior.
+    - Added the ability to automatically start Parallax into the information display with a configuration value or command-line argument.
