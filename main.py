@@ -106,15 +106,15 @@ current_location = [] # Set the current location variable to a placeholder befor
 
 times_started = 0
 while True: # Run forever in a loop until terminated.
-    play_voice("/system/menu/base.mp3")
-    clear()
-    print("Please select an option.")
-    print("1. Information Display")
-    print("2. Create Beacon")
-    print("3. Tools")
     if (config["general"]["autostart"] == True and times_started == 0):
         selection = "1"
     else:
+        play_voice("/system/menu/base.mp3")
+        clear()
+        print("Please select an option.")
+        print("1. Information Display")
+        print("2. Create Beacon")
+        print("3. Tools")
         selection = input("Selection: ")
     times_started += 1 # Increment the number of times Parallax has been started this session.
 
